@@ -14,6 +14,9 @@ The project also utilises responsive web design (the bootstrap framework) and wi
 
 ## Authors
 * Filip Drgoň
+
 >>> Filip Drgoň, učo 433309, FI B-IN PSZD [sem 4, roč 2]
-*Ľubomír Gocník
+
+* Ľubomír Gocník
+
 >>> Ľubomír Gocník, učo 433737, FI B-IN PSZD [sem 4, roč 2]
