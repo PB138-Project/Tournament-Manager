@@ -33,5 +33,7 @@ namespace Web.Models
         public System.Data.Entity.DbSet<BL.DTO.TournamentDTO> TournamentDTOes { get; set; }
 
         public System.Data.Entity.DbSet<BL.DTO.PlayerDTO> PlayerDTOes { get; set; }
+
+        public System.Data.Entity.DbSet<BL.DTO.TeamDTO> TeamDTOes { get; set; }
     }
 }

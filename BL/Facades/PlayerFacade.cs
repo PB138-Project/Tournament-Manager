@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace BL.Facades
     {
         public void Logger(string data)
         {
-            using (var writer = new StreamWriter("C://Users/Filip/Desktop/PlayerLog.txt"))
+            using (var writer = new StreamWriter("C://Users/" + Environment.UserName + "/Desktop/PlayerLog.txt"))
             {
                 writer.WriteLine(data);
             }
@@ -25,7 +26,12 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
+                var team = context.Teams.FirstOrDefault(d => d.TeamName == player.Team.TeamName);
+                if (team == null) throw new ArgumentNullException("Argument is null!");
+                newPlayer.Team = team;               
                 context.Players.Add(newPlayer);
+                context.Entry(team).State = EntityState.Modified;
+                context.Entry(newPlayer.Team).State = EntityState.Unchanged;
                 context.SaveChanges();
             }
         }
@@ -34,7 +40,7 @@ namespace BL.Facades
         {
             using (var context = new AppDbContext())
             {
-                var players = context.Players.ToList();
+                var players = context.Players.Include(c => c.Team).ToList();
                 return players.Select(e => Mapping.Mapper.Map<PlayerDTO>(e)).ToList();
             }
         }

@@ -27,6 +27,7 @@ namespace BL.Facades
             {
                 context.Database.Log = Logger;
                 context.Teams.Add(newTeam);
+                context.Entry(newTeam.TeamName).State = EntityState.Unchanged;
                 context.SaveChanges();
             }
         }
@@ -35,7 +36,7 @@ namespace BL.Facades
         {
             using (var context = new AppDbContext())
             {
-                var teams = context.Tournaments.ToList();
+                var teams = context.Teams.ToList();
                 return teams.Select(e => Mapping.Mapper.Map<TeamDTO>(e)).ToList();
             }
         }

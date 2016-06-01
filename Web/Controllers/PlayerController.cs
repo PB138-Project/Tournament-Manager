@@ -1,4 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using BL.DTO;
 using BL.Facades;
 
@@ -6,8 +10,8 @@ namespace Web.Controllers
 {
     public class PlayerController : Controller
     {
-            PlayerFacade playerFacade = new PlayerFacade();
-            [AllowAnonymous]
+
+        [AllowAnonymous]
             public ActionResult Greet(string name)
             {
                 return Content(name);
@@ -20,7 +24,8 @@ namespace Web.Controllers
 
             public ActionResult Players()
             {
-                var model = playerFacade.GetAllPlayers();
+            PlayerFacade playerFacade = new PlayerFacade();
+            var model = playerFacade.GetAllPlayers();
                 return View(model);
             }
 
@@ -32,30 +37,32 @@ namespace Web.Controllers
             [HttpPost]
             public ActionResult Create(PlayerDTO player)
             {
-                playerFacade.CreatePlayer(player);
+            PlayerFacade playerFacade = new PlayerFacade();
+            playerFacade.CreatePlayer(player);
                 return RedirectToAction("Players");
             }
 
             public ActionResult Delete(int id)
             {
-                playerFacade.DeletePlayer(id);
+            PlayerFacade playerFacade = new PlayerFacade();
+            playerFacade.DeletePlayer(id);
                 return RedirectToAction("Players");
             }
 
             public ActionResult Edit(int id)
             {
-                var player = playerFacade.GetSpecificPlayer(id);
+            PlayerFacade playerFacade = new PlayerFacade();
+            var player = playerFacade.GetSpecificPlayer(id);
                 return View(player);
             }
 
             [HttpPost]
             public ActionResult Edit(int id, PlayerDTO player)
             {
-                if (ModelState.IsValid)
+            PlayerFacade playerFacade = new PlayerFacade();
+            if (ModelState.IsValid)
                 {
                     var originalPlayer = playerFacade.GetSpecificPlayer(id);
-                    originalPlayer.Team = player.Team;
-                    originalPlayer.Team.TeamName = player.Team.TeamName;
                     originalPlayer.Age = player.Age;
                     originalPlayer.Name = player.Name;
                     originalPlayer.Surname = player.Surname;
@@ -66,5 +73,13 @@ namespace Web.Controllers
                 }
                 return View(player);
             }
+
+        public List<string> DropDownListMaker()
+        {
+            var teamFacade = new TeamFacade();
+            var list = teamFacade.GetAllTeams();
+            List<string> dropDownList = list.Select(item => item.TeamName).ToList();
+            return dropDownList;
+        }
      }
 }
