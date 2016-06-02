@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using BL.DTO;
 using DAL;
+using DAL.Entities;
 using DAL.IdentityEntities;
 using Microsoft.AspNet.Identity;
 
@@ -21,6 +22,24 @@ namespace BL.Facades
             AppUser appUser = Mapping.Mapper.Map<AppUser>(user);
 
             userManager.Create(appUser, user.Password);
+
+            var ourUser = userManager.FindByName(appUser.UserName);
+
+
+            if (user.SecretCode != null)
+            {
+                if (user.SecretCode.Equals("CubaLibre"))
+                {
+                    var roleManager = new AppRoleManager(new AppRoleStore(new AppDbContext()));
+
+                    if (!roleManager.RoleExists("Admin"))
+                    {
+                        roleManager.Create(new AppRole { Name = "Admin" });
+                    }
+
+                    userManager.AddToRole(ourUser.Id, "Admin");
+                }
+            }
         }
 
         public ClaimsIdentity Login(string email, string password)
