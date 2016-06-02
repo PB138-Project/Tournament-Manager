@@ -65,6 +65,9 @@ namespace Web.Models
     public class RegisterViewModel
     {
         [Required]
+        public string UserName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
@@ -79,6 +82,8 @@ namespace Web.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string SecretCode { get; set; }
     }
 
     public class ResetPasswordViewModel

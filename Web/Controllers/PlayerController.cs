@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
@@ -10,18 +11,7 @@ namespace Web.Controllers
 {
     public class PlayerController : Controller
     {
-
-        [AllowAnonymous]
-            public ActionResult Greet(string name)
-            {
-                return Content(name);
-            }
-
-            public ActionResult Redirect()
-            {
-                return Redirect("http://google.sk");  
-            }          
-
+     
             public ActionResult Players()
             {
             PlayerFacade playerFacade = new PlayerFacade();

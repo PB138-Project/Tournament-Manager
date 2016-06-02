@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace BL.Facades
     {
         public void Logger(string data)
         {
-            using (var writer = new StreamWriter("TeamLog.txt", true))
+            using (var writer = new StreamWriter("C://Users/" + Environment.UserName + "/Desktop/TeamLog.txt", true))
             {
                 writer.WriteLine(data);
             }
@@ -26,8 +27,7 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
-                context.Teams.Add(newTeam);
-                context.Entry(newTeam.TeamName).State = EntityState.Unchanged;
+                context.Teams.Add(newTeam);            
                 context.SaveChanges();
             }
         }
@@ -67,7 +67,13 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
-                context.Teams.Remove(context.Teams.Find(id));
+                var remove = context.Teams.Find(id);
+                var playerFacade = new PlayerFacade();
+                foreach (var player in remove.Players)
+                {
+                    playerFacade.DeletePlayer(player.Id);
+                }
+                context.Teams.Remove(remove);
                 context.SaveChanges();
             }
         }

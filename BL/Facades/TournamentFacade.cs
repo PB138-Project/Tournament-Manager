@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace BL.Facades
     {
         public void Logger(string data)
         {
-            using (var writer = new StreamWriter("TournamentLog.txt"))
+            using (var writer = new StreamWriter("C://Users/" + Environment.UserName + "/Desktop/TournamentLog.txt", true))
             {
                 writer.WriteLine(data);
             }
@@ -34,7 +35,7 @@ namespace BL.Facades
         {
             using (var context = new AppDbContext())
             {
-                var tournaments = context.Tournaments.ToList();
+                var tournaments = context.Tournaments.Include(c => c.Teams).Include(c => c.Matches).ToList();
                 return tournaments.Select(e => Mapping.Mapper.Map<TournamentDTO>(e)).ToList();
             }
         }
