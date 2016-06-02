@@ -11,6 +11,7 @@ namespace DAL.Entities
             Matches = new List<Match>();
         }
         public int Id { get; set; }
+        public string TournamentName { get; set; }
         public List<Team> Teams { get; set; }
         [Required]
         public List<Match> Matches { get; set; }

@@ -13,7 +13,7 @@ namespace BL.Facades
     {
         public void Logger(string data)
         {
-            using (var writer = new StreamWriter("C://Users/" + Environment.UserName + "/Desktop/PlayerLog.txt"))
+            using (var writer = new StreamWriter("C://Users/" + Environment.UserName + "/Desktop/PlayerLog.txt", true))
             {
                 writer.WriteLine(data);
             }
