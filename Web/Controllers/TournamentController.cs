@@ -25,18 +25,11 @@ namespace Web.Controllers
         }
 
         // GET: Tournament/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            TournamentDTO tournamentDTO = db.TournamentDTOes.Find(id);
-            if (tournamentDTO == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tournamentDTO);
+            var tournamentFacade = new TournamentFacade();
+            var tournament = tournamentFacade.GetSpecificTournament(id);
+            return View(tournament);
         }
 
         // GET: Tournament/Create
@@ -50,7 +43,7 @@ namespace Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TournamentName")] TournamentDTO tournamentDTO)
+        public ActionResult Create( TournamentDTO tournamentDTO)
         {
             if (ModelState.IsValid)
             {

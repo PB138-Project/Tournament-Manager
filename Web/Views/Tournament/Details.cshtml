@@ -7,18 +7,9 @@
 <h2>Details</h2>
 
 <div>
-    <h4>TournamentDTO</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TournamentName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TournamentName)
-        </dd>
-
-    </dl>
+    <h4><b>Tournament Name</b> : @Html.DisplayFor(model => model.TournamentName)</h4>
+    <h4><b>Tournament Size</b> : @Html.DisplayFor(model => model.TournamentSize)</h4>
+    <br>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

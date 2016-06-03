@@ -9,7 +9,6 @@ namespace DAL
     {
         public AppDbContext() : base("Stalinove Slzy")
         {
-
         }
 
         public DbSet<Match> Matches { get; set; }

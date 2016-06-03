@@ -3,7 +3,7 @@ namespace DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Stalinove_Slzy : DbMigration
+    public partial class Stalin : DbMigration
     {
         public override void Up()
         {
@@ -58,6 +58,7 @@ namespace DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         TournamentName = c.String(),
+                        TournamentSize = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             

@@ -63,9 +63,9 @@
     <Compile Include="Entities\Team.cs" />
     <Compile Include="Entities\Tournament.cs" />
     <Compile Include="IdentityEntities\AppUser.cs" />
-    <Compile Include="Migrations\201606021820013_Stalinove_Slzy.cs" />
-    <Compile Include="Migrations\201606021820013_Stalinove_Slzy.Designer.cs">
-      <DependentUpon>201606021820013_Stalinove_Slzy.cs</DependentUpon>
+    <Compile Include="Migrations\201606031330566_Stalin.cs" />
+    <Compile Include="Migrations\201606031330566_Stalin.Designer.cs">
+      <DependentUpon>201606031330566_Stalin.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,8 +75,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606021820013_Stalinove_Slzy.resx">
-      <DependentUpon>201606021820013_Stalinove_Slzy.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606031330566_Stalin.resx">
+      <DependentUpon>201606031330566_Stalin.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

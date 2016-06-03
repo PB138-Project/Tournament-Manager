@@ -36,7 +36,7 @@ namespace Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TeamName")] TeamDTO teamDTO)
+        public ActionResult Create(TeamDTO teamDTO)
         {
             if (ModelState.IsValid)
             {

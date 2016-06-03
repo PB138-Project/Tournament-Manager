@@ -43,7 +43,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Team, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.Team.TeamName, new SelectList(playerController.DropDownListMaker().ToArray(), "Pick a team!"))
+                @Html.DropDownListFor(model => model.Team.TeamName, new SelectList(playerController.DropDownListMaker().ToArray()), "Pick a team!")
                 <h6 class="text-danger" style="font-size: 80%">
                     *The player can only be added to an already created team<br />
                     If you're unable to find your team, please create it first!
