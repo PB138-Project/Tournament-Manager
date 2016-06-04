@@ -60,6 +60,22 @@ namespace BL.Facades
                 return result;
             }
         }
+
+        public List<MatchDTO> SetWinners()
+        {
+            using (var context = new AppDbContext())
+            {
+                context.Database.Log = Logger;
+                var matches = context.Matches.Where(m => m.WinnerId == null).ToList();
+                foreach (var specific in matches)
+                {
+                    specific.TeamA = context.Teams.Find(specific.TeamAId);
+                    specific.TeamB = context.Teams.Find(specific.TeamBId);
+                }
+                return matches.Select(e => Mapping.Mapper.Map<MatchDTO>(e)).ToList(); ;
+            }
+
+        }
         public void UpdateMatch(MatchDTO match)
         {
             Match newMatch = Mapping.Mapper.Map<Match>(match);

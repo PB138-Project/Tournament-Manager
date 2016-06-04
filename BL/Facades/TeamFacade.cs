@@ -31,12 +31,20 @@ namespace BL.Facades
                 context.SaveChanges();
             }
         }
-
         public List<TeamDTO> GetAllTeams()
         {
             using (var context = new AppDbContext())
             {
                 var teams = context.Teams.ToList();
+                return teams.Select(e => Mapping.Mapper.Map<TeamDTO>(e)).ToList();
+            }
+        }
+
+        public List<TeamDTO> GetAllUnusedTeams()
+        {
+            using (var context = new AppDbContext())
+            {
+                var teams = context.Teams.Where(t => t.TournamentId == null).ToList();
                 return teams.Select(e => Mapping.Mapper.Map<TeamDTO>(e)).ToList();
             }
         }

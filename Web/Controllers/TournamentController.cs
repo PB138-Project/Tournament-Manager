@@ -60,6 +60,7 @@ namespace Web.Controllers
             var tournament = tournamentFacade.GetSpecificTournament(tournamentModel.Id);
             tournamentModel.Name = tournament.TournamentName;
             tournamentModel.Size = tournament.TournamentSize;
+            //Control input data
             for (int i = 0; i < tournamentModel.Size; i++)
             {
                 for (int j = i; j < tournamentModel.Teams.Length; j++)
@@ -73,6 +74,7 @@ namespace Web.Controllers
                     }
                 }
             }
+            //Set Tournament Id in first cycle
             if (tournamentModel.Teams.Length == tournamentModel.Size)
             {
                 foreach (var name in tournamentModel.Teams)
@@ -82,6 +84,28 @@ namespace Web.Controllers
                     teamFacade.UpdateTeam(team);
                 }
             }
+            //Set Winners
+            foreach(var match in matchFacade.SetWinners())
+            {
+                foreach(string name in tournamentModel.Teams)
+                {
+                    if (match.TeamA.TeamName.Equals(name))
+                    {
+                        match.WinnerId = match.TeamA.Id;
+                    }
+                    if (match.TeamB.TeamName.Equals(name))
+                    {
+                        match.WinnerId = match.TeamB.Id;
+                    }
+                    matchFacade.UpdateMatch(match);
+                }                    
+            }
+
+            if (tournamentModel.Teams.Length == 1)
+            {
+                return RedirectToAction("Winner");
+            }
+
             for (int i = 0; i < tournamentModel.Teams.Length; i+=2)
             { 
                 matchFacade.CreateMatch(teamFacade.GetSpecificTeam(tournamentModel.Teams[i]).Id,
@@ -92,6 +116,12 @@ namespace Web.Controllers
             return RedirectToAction("Details");
         }
 
+
+        // GET: Tournament/Winner -> last round
+        public ActionResult Winner()
+        {
+            return View();
+        }
         // GET: Tournament/Create
         public ActionResult Create()
         {
@@ -165,7 +195,7 @@ namespace Web.Controllers
         public List<string> DropDownListMaker()
         {
             var teamFacade = new TeamFacade();
-            var list = teamFacade.GetAllTeams();
+            var list = teamFacade.GetAllUnusedTeams();
             List<string> dropDownList = list.Select(item => item.TeamName).ToList();
             return dropDownList;
         }

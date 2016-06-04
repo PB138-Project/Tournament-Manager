@@ -290,12 +290,12 @@
     <Content Include="Views\Team\Delete.cshtml" />
     <Content Include="Views\Tournament\Edit.cshtml" />
     <Content Include="Views\Tournament\Tournaments.cshtml" />
-    <Content Include="Views\Tournament\Details.cshtml" />
     <Content Include="Views\Tournament\Delete.cshtml" />
+    <Content Include="Views\Tournament\Details.cshtml" />
+    <Content Include="Views\Tournament\Winner.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Match\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
