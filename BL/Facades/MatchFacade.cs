@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -12,19 +13,27 @@ namespace BL.Facades
     {
         public void Logger(string data)
         {
-            using (var writer = new StreamWriter("MatchLog.txt"))
+            using (var writer = new StreamWriter("C://Users/" + Environment.UserName + "/Desktop/PlayerLog.txt", true))
             {
                 writer.WriteLine(data);
             }
         }
 
-        public void CreateMatch(MatchDTO match)
+        public void CreateMatch(int Aid, int Bid, int Tid)
         {
-            Match newMatch = Mapping.Mapper.Map<Match>(match);
 
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
+                var newMatch = new Match
+                {
+                    TeamA = context.Teams.Find(Aid),
+                    TeamB = context.Teams.Find(Bid),
+                    Tournament = context.Tournaments.Find(Tid),
+                    TeamAId = Aid,
+                    TeamBId = Bid,
+                    TournamentId = Tid,
+                };
                 context.Matches.Add(newMatch);
                 context.SaveChanges();
             }
@@ -44,12 +53,11 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
-                var specific =
-                    context.Matches.Include(c => c.TeamA)
-                        .Include(c => c.TeamB)
-                        .Include(c => c.Tournament)
-                        .FirstOrDefault(c => c.Id == id);
-                return Mapping.Mapper.Map<MatchDTO>(specific);
+                var specific =context.Matches.FirstOrDefault(c => c.Id == id);
+                specific.TeamA = context.Teams.Find(specific.TeamAId);
+                specific.TeamB = context.Teams.Find(specific.TeamBId);
+                var result = Mapping.Mapper.Map<MatchDTO>(specific);
+                return result;
             }
         }
         public void UpdateMatch(MatchDTO match)
@@ -71,6 +79,22 @@ namespace BL.Facades
                 context.Database.Log = Logger;
                 context.Matches.Remove(context.Matches.Find(id));
                 context.SaveChanges();
+            }
+        }
+
+        public List<MatchDTO> GetMatchesByTournamentId(int id)
+        {
+            using (var context = new AppDbContext())
+            {
+                context.Database.Log = Logger;
+                var result = context.Matches.Where(c => c.TournamentId == id).ToList();
+                foreach (var match in result)
+                {
+                    match.TeamA = context.Teams.Find(match.TeamAId);
+                    match.TeamB = context.Teams.Find(match.TeamBId);
+                }
+                return result
+                    .Select(e => Mapping.Mapper.Map<MatchDTO>(e)).ToList();
             }
         }
     }

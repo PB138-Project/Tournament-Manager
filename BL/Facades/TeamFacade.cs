@@ -46,7 +46,24 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
-                var specific = context.Teams.Include(c => c.Players).FirstOrDefault(c => c.Id == id);
+                var specific =context.Teams.Include(c => c.Players).FirstOrDefault(c => c.Id == id);
+                if (specific.TournamentId != null)
+                {
+                    specific.Tournament = context.Tournaments.Find((int)specific.TournamentId);
+                }
+                return Mapping.Mapper.Map<TeamDTO>(specific);
+            }
+        }
+        public TeamDTO GetSpecificTeam(string name)
+        {
+            using (var context = new AppDbContext())
+            {
+                context.Database.Log = Logger;
+                var specific = context.Teams.Include(c => c.Players).FirstOrDefault(c => c.TeamName.Equals(name));
+                if (specific.TournamentId != null)
+                {
+                    specific.Tournament = context.Tournaments.Find((int)specific.TournamentId);
+                }
                 return Mapping.Mapper.Map<TeamDTO>(specific);
             }
         }

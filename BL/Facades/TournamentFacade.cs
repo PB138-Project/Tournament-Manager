@@ -35,7 +35,7 @@ namespace BL.Facades
         {
             using (var context = new AppDbContext())
             {
-                var tournaments = context.Tournaments.Include(c => c.Teams).Include(c => c.Matches).ToList();
+                var tournaments = context.Tournaments.ToList();
                 return tournaments.Select(e => Mapping.Mapper.Map<TournamentDTO>(e)).ToList();
             }
         }
@@ -46,10 +46,11 @@ namespace BL.Facades
             {
                 context.Database.Log = Logger;
                 var specific =
-                    context.Tournaments.Include(c => c.Teams).Include(c => c.Matches).FirstOrDefault(c => c.Id == id);
+                    context.Tournaments.FirstOrDefault(c => c.Id == id);
                 return Mapping.Mapper.Map<TournamentDTO>(specific);
             }
         }
+
         public void UpdateTournament(TournamentDTO tournament)
         {
             var newTournament = Mapping.Mapper.Map<Tournament>(tournament);

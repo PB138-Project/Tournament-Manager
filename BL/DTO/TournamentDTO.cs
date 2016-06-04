@@ -7,8 +7,5 @@ namespace BL.DTO
         public int Id { get; set; }
         public string TournamentName { get; set; }
         public int TournamentSize { get; set; }
-        public List<TeamDTO> Teams { get; set; }
-        public List<MatchDTO> Matches { get; set; }
-       
     }
 }

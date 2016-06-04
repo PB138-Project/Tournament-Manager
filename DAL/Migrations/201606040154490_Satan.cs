@@ -3,7 +3,7 @@ namespace DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Stalin : DbMigration
+    public partial class Satan : DbMigration
     {
         public override void Up()
         {
@@ -12,19 +12,18 @@ namespace DAL.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        MatchType = c.Int(nullable: false),
-                        Winner = c.Boolean(nullable: false),
-                        TeamA_Id = c.Int(nullable: false),
-                        TeamB_Id = c.Int(nullable: false),
-                        Tournament_Id = c.Int(nullable: false),
+                        TeamAId = c.Int(nullable: false),
+                        TeamBId = c.Int(nullable: false),
+                        WinnerId = c.Int(),
+                        TournamentId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Teams", t => t.TeamA_Id, cascadeDelete: false)
-                .ForeignKey("dbo.Teams", t => t.TeamB_Id, cascadeDelete: false)
-                .ForeignKey("dbo.Tournaments", t => t.Tournament_Id, cascadeDelete: true)
-                .Index(t => t.TeamA_Id)
-                .Index(t => t.TeamB_Id)
-                .Index(t => t.Tournament_Id);
+                .ForeignKey("dbo.Teams", t => t.TeamAId, cascadeDelete: false)
+                .ForeignKey("dbo.Teams", t => t.TeamBId, cascadeDelete: false)
+                .ForeignKey("dbo.Tournaments", t => t.TournamentId, cascadeDelete: true)
+                .Index(t => t.TeamAId)
+                .Index(t => t.TeamBId)
+                .Index(t => t.TournamentId);
             
             CreateTable(
                 "dbo.Teams",
@@ -32,11 +31,11 @@ namespace DAL.Migrations
                     {
                         Id = c.Int(nullable: false, identity: true),
                         TeamName = c.String(),
-                        Tournament_Id = c.Int(),
+                        TournamentId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Tournaments", t => t.Tournament_Id)
-                .Index(t => t.Tournament_Id);
+                .ForeignKey("dbo.Tournaments", t => t.TournamentId)
+                .Index(t => t.TournamentId);
             
             CreateTable(
                 "dbo.Players",
@@ -138,10 +137,10 @@ namespace DAL.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Matches", "Tournament_Id", "dbo.Tournaments");
-            DropForeignKey("dbo.Teams", "Tournament_Id", "dbo.Tournaments");
-            DropForeignKey("dbo.Matches", "TeamB_Id", "dbo.Teams");
-            DropForeignKey("dbo.Matches", "TeamA_Id", "dbo.Teams");
+            DropForeignKey("dbo.Matches", "TournamentId", "dbo.Tournaments");
+            DropForeignKey("dbo.Matches", "TeamBId", "dbo.Teams");
+            DropForeignKey("dbo.Matches", "TeamAId", "dbo.Teams");
+            DropForeignKey("dbo.Teams", "TournamentId", "dbo.Tournaments");
             DropForeignKey("dbo.Players", "Team_Id", "dbo.Teams");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
@@ -150,10 +149,10 @@ namespace DAL.Migrations
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
             DropIndex("dbo.Players", new[] { "Team_Id" });
-            DropIndex("dbo.Teams", new[] { "Tournament_Id" });
-            DropIndex("dbo.Matches", new[] { "Tournament_Id" });
-            DropIndex("dbo.Matches", new[] { "TeamB_Id" });
-            DropIndex("dbo.Matches", new[] { "TeamA_Id" });
+            DropIndex("dbo.Teams", new[] { "TournamentId" });
+            DropIndex("dbo.Matches", new[] { "TournamentId" });
+            DropIndex("dbo.Matches", new[] { "TeamBId" });
+            DropIndex("dbo.Matches", new[] { "TeamAId" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");

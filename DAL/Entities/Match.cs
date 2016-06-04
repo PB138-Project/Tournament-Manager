@@ -7,15 +7,17 @@ namespace DAL.Entities
     public class Match
     {
         public int Id { get; set; }
-
-        [Required]
+        [ForeignKey("TeamA")]
+        public int TeamAId { get; set; }
         public Team TeamA { get; set; }
-        [Required]
+        [ForeignKey("TeamB")]
+        public int TeamBId { get; set; }
         public Team TeamB { get; set; }
-        public int MatchType { get; set; }
-        public bool Winner { get; set; }
-        [Required]
+        public int? WinnerId { get; set; }
+        [ForeignKey("Tournament")]
+        public int TournamentId { get; set; }
         public Tournament Tournament { get; set; }
+
 
          
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 
 namespace DAL.Entities
@@ -13,9 +14,11 @@ namespace DAL.Entities
         }
         public int Id { get; set; }
         public string TeamName { get; set; }
-
-        //Removed KD (Kill-death ratio).
         [Required]
         public List<Player> Players { get; set; }
+        [ForeignKey("Tournament")]
+        public int? TournamentId { get; set; }
+        public Tournament Tournament { get; set; }
+
     }
 }

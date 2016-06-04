@@ -1,16 +1,149 @@
-﻿@model BL.DTO.TournamentDTO
+﻿@using Web.Controllers
+@model Web.Models.TournamentModel
 
 @{
     ViewBag.Title = "Details";
+    var tournamentController = new TournamentController();
+    var dropDownHelper = 0;
+    var offsetHelper = 0;
 }
 
 <h2>Details</h2>
 
 <div>
-    <h4><b>Tournament Name</b> : @Html.DisplayFor(model => model.TournamentName)</h4>
-    <h4><b>Tournament Size</b> : @Html.DisplayFor(model => model.TournamentSize)</h4>
+    <h4><b>Tournament Name</b> : @Html.DisplayFor(model => model.Name)</h4>
+    <h4><b>Tournament Size</b> : @Html.DisplayFor(model => model.Size)</h4>
     <br>
 </div>
+@{
+            var counter = 0;
+}
+@using (Html.BeginForm())
+{
+
+    <div>
+        @if (Model.Matches.Length >= Model.Size/2)
+        {
+            for (int i = 0; i < Model.Size/4; i++)
+            {
+                <text>@Model.Matches[i].TeamA.TeamName X @Model.Matches[i].TeamB.TeamName </text>
+
+
+            }
+            <br/>
+        }
+        @if (Model.Matches.Length >= Model.Size*3/4)
+        {
+            dropDownHelper = Model.Size/2;
+            for (int i = Model.Size/2; i < Model.Size/2 + Model.Size/8; i ++)
+            {
+                <text>@Model.Matches[i].TeamA.TeamName X @Model.Matches[i].TeamB.TeamName </text>
+
+
+            }
+            <br/>
+        }
+        @if (Model.Matches.Length >= Model.Size*7/8)
+        {
+            dropDownHelper = Model.Size*3/4;
+            for (int i = Model.Size*3/4; i < Model.Size*3/4 + Model.Size/16; i ++)
+            {
+                <text>@Model.Matches[i].TeamA.TeamName X @Model.Matches[i].TeamB.TeamName </text>
+
+
+            }
+            <br/>
+        }
+        <br/>
+        @if (Model.Size - Model.Matches.Length == 1)
+        {
+            <text>@Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</text>
+            <br/>
+            @Html.DropDownListFor(model => model.Teams[counter], new SelectList(
+                new List<string>
+                {
+                    Model.Matches[Model.Matches.Length - 1].TeamA.TeamName,
+                    Model.Matches[Model.Matches.Length - 1].TeamB.TeamName
+                }.ToArray()))
+            <br/>
+            <text>@Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</text>
+            <br/>
+        }
+        else
+        {
+            for (int i = 0; i < Model.Size - Model.Matches.Length; ++i)
+            {
+                if (Model.Matches.Length == 0)
+                {
+                    var dropdown = tournamentController.DropDownListMaker().ToArray();
+                    @Html.DropDownListFor(model => model.Teams[counter], new SelectList(dropdown, dropdown[i]))
+                }
+                else
+                {
+                    @Html.DropDownListFor(model => model.Teams[counter], new SelectList(
+                        new List<string>
+                        {
+                            Model.Matches[i + dropDownHelper].TeamA.TeamName,
+                            Model.Matches[i + dropDownHelper].TeamB.TeamName
+                        }.ToArray()))
+                }
+                counter++;
+                if (counter == (Model.Size - Model.Matches.Length)/2)
+                {
+                    <br/><br/><br/><br/><br/><br/><br/><br/>
+                }
+            }
+        }
+        <br/>
+
+        @if (Model.Matches.Length >= Model.Size*7/8)
+        {
+            offsetHelper = Model.Size*13/16;
+            for (int i = offsetHelper; i < offsetHelper + Model.Size/16; i++)
+            {
+                <text>@Model.Matches[i].TeamA.TeamName X @Model.Matches[i].TeamB.TeamName </text>
+            }
+
+            <br/>
+        }
+        @if (Model.Matches.Length >= Model.Size*3/4)
+        {
+            offsetHelper = Model.Size*5/8;
+            for (int i = offsetHelper; i < offsetHelper + Model.Size/8; i++)
+            {
+                <text>@Model.Matches[i].TeamA.TeamName X @Model.Matches[i].TeamB.TeamName </text>
+
+
+            }
+            <br/>
+        }
+        @if (Model.Matches.Length >= Model.Size/2)
+        {
+            offsetHelper = Model.Size/4;
+            for (int i = offsetHelper; i < offsetHelper + Model.Size/4; i++)
+            {
+                <text>@Model.Matches[i].TeamA.TeamName X @Model.Matches[i].TeamB.TeamName </text>
+
+
+            }
+            <br/>
+        }
+
+
+    </div>
+    if (User.IsInRole("Admin"))
+    {
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default"/>
+            </div>
+        </div>
+    }
+}
+@for (int i = 1; i < counter; i++)
+{
+    <p>@Session["Team" + i]</p>
+}
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Tournaments")

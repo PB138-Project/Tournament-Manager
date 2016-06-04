@@ -28,8 +28,68 @@ namespace Web.Controllers
         public ActionResult Details(int id)
         {
             var tournamentFacade = new TournamentFacade();
+            var matchFacade = new MatchFacade();
             var tournament = tournamentFacade.GetSpecificTournament(id);
-            return View(tournament);
+            var matches = matchFacade.GetMatchesByTournamentId(id);
+            var tournamentModel = new TournamentModel()
+            {
+                Id = tournament.Id,
+                Name = tournament.TournamentName,
+                Size = tournament.TournamentSize,
+                Teams = new string[tournament.TournamentSize],
+                Matches = new MatchDTO[matches.Count]
+            };
+            int i=0;
+            foreach (var match in matches)
+            {
+                tournamentModel.Matches[i] = match;
+                i++;
+            }
+
+
+            return View(tournamentModel);
+        }
+
+        //Post: Tournament/Details/5
+        [HttpPost]
+        public ActionResult Details(TournamentModel tournamentModel)
+        {
+            var tournamentFacade = new TournamentFacade();
+            var teamFacade = new TeamFacade();
+            var matchFacade = new MatchFacade();
+            var tournament = tournamentFacade.GetSpecificTournament(tournamentModel.Id);
+            tournamentModel.Name = tournament.TournamentName;
+            tournamentModel.Size = tournament.TournamentSize;
+            for (int i = 0; i < tournamentModel.Size; i++)
+            {
+                for (int j = i; j < tournamentModel.Teams.Length; j++)
+                {
+                    if (i != j)
+                    {
+                        if (tournamentModel.Teams[i].Equals(tournamentModel.Teams[j]))
+                        {
+                            return RedirectToAction("Details");
+                        }
+                    }
+                }
+            }
+            if (tournamentModel.Teams.Length == tournamentModel.Size)
+            {
+                foreach (var name in tournamentModel.Teams)
+                {
+                    var team = teamFacade.GetSpecificTeam(name);
+                    team.TournamentId = tournament.Id;
+                    teamFacade.UpdateTeam(team);
+                }
+            }
+            for (int i = 0; i < tournamentModel.Teams.Length; i+=2)
+            { 
+                matchFacade.CreateMatch(teamFacade.GetSpecificTeam(tournamentModel.Teams[i]).Id,
+                    teamFacade.GetSpecificTeam(tournamentModel.Teams[i + 1]).Id, tournamentModel.Id);
+
+            }
+
+            return RedirectToAction("Details");
         }
 
         // GET: Tournament/Create
@@ -101,6 +161,13 @@ namespace Web.Controllers
            var tournamentFacade = new TournamentFacade();
             tournamentFacade.DeleteTournament(id);
             return RedirectToAction("Tournaments");
+        }
+        public List<string> DropDownListMaker()
+        {
+            var teamFacade = new TeamFacade();
+            var list = teamFacade.GetAllTeams();
+            List<string> dropDownList = list.Select(item => item.TeamName).ToList();
+            return dropDownList;
         }
     }
 }
