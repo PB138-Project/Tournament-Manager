@@ -8,7 +8,6 @@
     var offsetHelper = 0;
     var teamFacade = new TeamFacade();
 }
-<h2>Details</h2>
 <div align="center">
     <h4><b>@Html.DisplayFor(model => model.Name)</b></h4>
     <h4><b>@Html.DisplayFor(model => model.Size)-team</b> tournament</h4>
@@ -36,60 +35,71 @@
             {
                 for (int i = 0; i < Model.Size / 4; i++)
                 {
-                    <text>| @Model.Matches[i].TeamA.TeamName <i class="fa fa-vimeo" aria-hidden="true"></i><i class="fa fa-scribd" aria-hidden="true"></i> @Model.Matches[i].TeamB.TeamName |</text>
-                    <i class="fa fa-vimeo" aria-hidden="true"></i><i class="fa fa-scribd" aria-hidden="true"></i>
-
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
-                <br />
+                <br/>
+                <br/>
             }
             @if (Model.Matches.Length >= Model.Size * 3 / 4)
             {
                 dropDownHelper = Model.Size / 2;
                 for (int i = Model.Size / 2; i < Model.Size / 2 + Model.Size / 8; i++)
                 {
-                    <text>| @Model.Matches[i].TeamA.TeamName <i class="fa fa-vimeo" aria-hidden="true"></i><i class="fa fa-scribd" aria-hidden="true"></i> @Model.Matches[i].TeamB.TeamName |</text>
-
-
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
-                <br />
+                <br/>
+                <br/>
             }
             @if (Model.Matches.Length >= Model.Size * 7 / 8)
             {
                 dropDownHelper = Model.Size * 3 / 4;
                 for (int i = Model.Size * 3 / 4; i < Model.Size * 3 / 4 + Model.Size / 16; i++)
                 {
-                    <text>| @Model.Matches[i].TeamA.TeamName <i class="fa fa-vimeo" aria-hidden="true"></i><i class="fa fa-scribd" aria-hidden="true"></i> @Model.Matches[i].TeamB.TeamName |</text>
-
-
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
-                <br />
+                <br/>
+                <br/>
             }
             @if (Model.Size - Model.Matches.Length == 1)
             {
                 if (Model.Matches[Model.Matches.Length - 1].WinnerId == null)
                 {
-                    <text>| @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName |</text>
-                    <br />
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</i>
+                    <br/>
+                    <br/>
                     @Html.DropDownListFor(model => model.Teams[counter], new SelectList(
                     new List<string>
                     {
                         Model.Matches[Model.Matches.Length - 1].TeamA.TeamName,
                         Model.Matches[Model.Matches.Length - 1].TeamB.TeamName
                     }.ToArray()))
-                    <br />
-                    <text>| @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName |</text>
-                    <br />
+                    <br/>
+                    <br/>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
+                    <br/>
+                    <br/>
                 }
                 else
                 {
                     if (Model.Matches[Model.Matches.Length - 1].WinnerId == Model.Matches[Model.Matches.Length - 1].TeamAId)
                     {
-                        <text>***@Model.Matches[Model.Matches.Length - 1].TeamA.TeamName***</text>
+                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</i>
+                        <br/>
+                        <br/>
+                        <i style="border: solid red; margin-right: 1%; margin-top: 2%; font-size: 200%;">@Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</i>
+                        <br/>
+                        <br/>
+                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
                     }
                     else
                     {
-
-                        <text>***@Model.Matches[Model.Matches.Length - 1].TeamB.TeamName***</text>
+                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</i>
+                        <br/>
+                        <br/>
+                        <i style="border: solid red; margin-right: 1%; margin-top: 2%; font-size: 200%;">@Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
+                        <br/>
+                        <br/>
+                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
                     }
                 }
             }
@@ -119,7 +129,7 @@
                     }
                 }
             }
-
+            <br />
             <br />
 
             @if (Model.Matches.Length >= Model.Size * 7 / 8)
@@ -127,20 +137,19 @@
                 offsetHelper = Model.Size * 13 / 16;
                 for (int i = offsetHelper; i < offsetHelper + Model.Size / 16; i++)
                 {
-                    <text>| @Model.Matches[i].TeamA.TeamName <i class="fa fa-vimeo" aria-hidden="true"></i><i class="fa fa-scribd" aria-hidden="true"></i> @Model.Matches[i].TeamB.TeamName |</text>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 10%;margin-bottom: 10%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
-
-                <br />
+                <br/>
+                <br/>
             }
             @if (Model.Matches.Length >= Model.Size * 3 / 4)
             {
                 offsetHelper = Model.Size * 5 / 8;
                 for (int i = offsetHelper; i < offsetHelper + Model.Size / 8; i++)
                 {
-                    <text>| @Model.Matches[i].TeamA.TeamName <i class="fa fa-vimeo" aria-hidden="true"></i><i class="fa fa-scribd" aria-hidden="true"></i> @Model.Matches[i].TeamB.TeamName |</text>
-
-
+                    <i style="border: solid green; margin-right: 1%; margin-top: 10%;margin-bottom: 10%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
+                <br />
                 <br />
             }
             @if (Model.Matches.Length >= Model.Size / 2)
@@ -148,16 +157,21 @@
                 offsetHelper = Model.Size / 4;
                 for (int i = offsetHelper; i < offsetHelper + Model.Size / 4; i++)
                 {
-                    <text>| @Model.Matches[i].TeamA.TeamName <i class="fa fa-vimeo" aria-hidden="true"></i><i class="fa fa-scribd" aria-hidden="true"></i> @Model.Matches[i].TeamB.TeamName |</text>
-
-
+                    <i style="border: solid green; margin-right: 1%; margin-top: 10%; margin-bottom: 10%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
                 <br />
+                <br />
             }
-            <br />
+            <br/>
+            @if (User.IsInRole("Admin") && (Model.Size != Model.Matches.Length + 1 || Model.Matches[Model.Matches.Length - 1].WinnerId == null))
+            {
+                <div class="form-group" align="center">
+                        <input type="submit" value="Next Step &raquo;" class="btn btn-success" />
+                </div>
+            }
             <p>
                 @Html.ActionLink("Back to Tournaments list", "Tournaments")
-            </p>
+            </p>            
             @if (User.IsInRole("Admin"))
             {
                 <p>
@@ -165,14 +179,6 @@
                 </p>
             }
         </div>
-        @if (User.IsInRole("Admin") && (Model.Size != Model.Matches.Length + 1 || Model.Matches[Model.Matches.Length - 1].WinnerId == null))
-        {
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Next Step" class="btn btn-default" />
-                </div>
-            </div>
-        }
         <table class="table">
             <tr>
                 <th>
