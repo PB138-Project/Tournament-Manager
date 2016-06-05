@@ -116,6 +116,14 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
+                var teamFacade = new TeamFacade();
+                var teams = teamFacade.GetAllTeams();
+                foreach (var team in teams.Where(team => team.TournamentId == id))
+                {
+                    team.Tournament = null;
+                    team.TournamentId = null;
+                    teamFacade.UpdateTeam(team);
+                }
                 context.Tournaments.Remove(context.Tournaments.Find(id));
                 context.SaveChanges();
             }

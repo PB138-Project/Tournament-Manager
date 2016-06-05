@@ -1,7 +1,7 @@
 ﻿@model BL.DTO.TournamentDTO
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Create a Tournament";
 }
 
 <h2>Create</h2>
@@ -13,7 +13,7 @@
         @Html.AntiForgeryToken()
     
         <div class="form-horizontal">
-            <h4>TournamentDTO</h4>
+            <h4>Tournament</h4>
             <hr />
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
