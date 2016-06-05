@@ -55,7 +55,6 @@ namespace Web.Controllers
                     var originalPlayer = playerFacade.GetSpecificPlayer(id);
                     originalPlayer.Age = player.Age;
                     originalPlayer.Name = player.Name;
-                    originalPlayer.Surname = player.Surname;
 
                     playerFacade.UpdatePlayer(originalPlayer);
 

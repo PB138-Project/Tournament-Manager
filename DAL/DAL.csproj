@@ -63,9 +63,9 @@
     <Compile Include="Entities\Team.cs" />
     <Compile Include="Entities\Tournament.cs" />
     <Compile Include="IdentityEntities\AppUser.cs" />
-    <Compile Include="Migrations\201606051936477_Satan.cs" />
-    <Compile Include="Migrations\201606051936477_Satan.Designer.cs">
-      <DependentUpon>201606051936477_Satan.cs</DependentUpon>
+    <Compile Include="Migrations\201606052133589_Santa.cs" />
+    <Compile Include="Migrations\201606052133589_Santa.Designer.cs">
+      <DependentUpon>201606052133589_Santa.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,8 +75,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201606051936477_Satan.resx">
-      <DependentUpon>201606051936477_Satan.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201606052133589_Santa.resx">
+      <DependentUpon>201606052133589_Santa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

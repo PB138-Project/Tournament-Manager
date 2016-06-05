@@ -24,6 +24,10 @@ namespace BL.Facades
         {
             Team newTeam = Mapping.Mapper.Map<Team>(team);
 
+            if (GetId(newTeam.TeamName) != 0)
+            {
+                return;
+            }
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
@@ -79,6 +83,11 @@ namespace BL.Facades
         {
             var newTeam = Mapping.Mapper.Map<Team>(team);
 
+            if (GetId(newTeam.TeamName) != newTeam.Id)
+            {
+                return;
+            }
+
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
@@ -100,6 +109,16 @@ namespace BL.Facades
                 }
                 context.Teams.Remove(remove);
                 context.SaveChanges();
+            }
+        }
+        private int GetId(string name)
+        {
+            using (var context = new AppDbContext())
+            {
+                context.Database.Log = Logger;
+                var team = context.Teams.FirstOrDefault(t => t.TeamName.Equals(name));
+                context.SaveChanges();
+                return (team == null) ? 0 : team.Id;
             }
         }
     }
