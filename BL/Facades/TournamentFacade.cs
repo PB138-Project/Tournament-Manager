@@ -23,6 +23,10 @@ namespace BL.Facades
         {
             Tournament newTournament = Mapping.Mapper.Map<Tournament>(tournament);
 
+            if (GetId(newTournament.TournamentName) != 0)
+            {
+                return;
+            }
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
@@ -75,6 +79,11 @@ namespace BL.Facades
         {
             var newTournament = Mapping.Mapper.Map<Tournament>(tournament);
 
+            if (GetId(newTournament.TournamentName) != newTournament.Id)
+            {
+                return;
+            }
+
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
@@ -109,6 +118,16 @@ namespace BL.Facades
                 context.Database.Log = Logger;
                 context.Tournaments.Remove(context.Tournaments.Find(id));
                 context.SaveChanges();
+            }
+        }
+        private int GetId(string name)
+        {
+            using (var context = new AppDbContext())
+            {
+                context.Database.Log = Logger;
+                var tournament = context.Tournaments.FirstOrDefault(t => t.TournamentName.Equals(name));
+                context.SaveChanges();
+                return (tournament == null) ? 0 : tournament.Id;
             }
         }
     }

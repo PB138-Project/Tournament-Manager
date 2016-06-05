@@ -23,6 +23,11 @@ namespace BL.Facades
         {
             Player newPlayer = Mapping.Mapper.Map<Player>(player);
 
+            if (GetId(newPlayer.Name) != 0)
+            {
+                return;
+            }
+
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
@@ -58,6 +63,11 @@ namespace BL.Facades
         {
             var newPlayer = Mapping.Mapper.Map<Player>(player);
 
+            if (GetId(newPlayer.Name) != newPlayer.Id)
+            {
+                return;
+            }
+
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
@@ -73,6 +83,17 @@ namespace BL.Facades
                 context.Database.Log = Logger;
                 context.Players.Remove(context.Players.Find(id));
                 context.SaveChanges();
+            }
+        }
+
+        private int GetId (string name)
+        {
+            using (var context = new AppDbContext())
+            {
+                context.Database.Log = Logger;
+                var player = context.Players.FirstOrDefault(p => p.Name.Equals(name));
+                context.SaveChanges();
+                return (player == null) ? 0 : player.Id;
             }
         }
     }

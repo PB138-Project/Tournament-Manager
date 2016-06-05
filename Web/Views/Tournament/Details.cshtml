@@ -11,6 +11,8 @@
 <div align="center">
     <h4><b>@Html.DisplayFor(model => model.Name)</b></h4>
     <h4><b>@Html.DisplayFor(model => model.Size)-team</b> tournament</h4>
+
+
     @if (!(Model.Size != Model.Matches.Length + 1 || Model.Matches[Model.Matches.Length - 1].WinnerId == null)) {
     <h2>Winner is Team <b>@if (Model.Matches[Model.Matches.Length - 1].WinnerId == Model.Matches[Model.Matches.Length - 1].TeamAId)
                     {
@@ -18,7 +20,6 @@
                     }
                     else
                     {
-
                         <text>***@Model.Matches[Model.Matches.Length - 1].TeamB.TeamName***</text>
                     }</b></h2>
     }
