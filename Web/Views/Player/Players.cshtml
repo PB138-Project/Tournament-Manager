@@ -5,10 +5,12 @@
 }
 
 <h2>Players</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -39,10 +41,13 @@
         <td>
             @Html.DisplayFor(modelItem => item.Team.TeamName)
         </td>
+        @if (User.IsInRole("Admin"))
+        {
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
             @Html.ActionLink("Delete", "Delete", new { id=item.Id })
         </td>
+        }
     </tr>
 }
 

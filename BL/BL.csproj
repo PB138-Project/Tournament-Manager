@@ -66,6 +66,9 @@
     <Compile Include="AppUserManager.cs" />
     <Compile Include="AppUserStore.cs" />
     <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="Export\ExportToXML.cs" />
+    <Compile Include="Export\MatchXML.cs" />
+    <Compile Include="Export\TournamentXML.cs" />
     <Compile Include="Facades\MatchFacade.cs" />
     <Compile Include="Facades\PlayerFacade.cs" />
     <Compile Include="Facades\TeamFacade.cs" />

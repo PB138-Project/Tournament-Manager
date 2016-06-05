@@ -54,17 +54,32 @@
         <br />
         @if (Model.Size - Model.Matches.Length == 1)
         {
-            <text>|    @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName    |</text>
-            <br />
-            @Html.DropDownListFor(model => model.Teams[counter], new SelectList(
-                new List<string>
+            if (Model.Matches[Model.Matches.Length - 1].WinnerId == null)
+            {
+                <text>|    @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName    |</text>
+                <br />
+                @Html.DropDownListFor(model => model.Teams[counter], new SelectList(
+                             new List<string>
+                             {
+                        Model.Matches[Model.Matches.Length - 1].TeamA.TeamName,
+                        Model.Matches[Model.Matches.Length - 1].TeamB.TeamName
+                             }.ToArray()))
+                <br />
+                <text>|    @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName    |</text>
+                <br />
+            }
+            else
+            {
+                if (Model.Matches[Model.Matches.Length - 1].WinnerId == Model.Matches[Model.Matches.Length - 1].TeamAId)
                 {
-                    Model.Matches[Model.Matches.Length - 1].TeamA.TeamName,
-                    Model.Matches[Model.Matches.Length - 1].TeamB.TeamName
-                }.ToArray()))
-            <br />
-            <text>|    @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName    |</text>
-            <br />
+                    <text>***@Model.Matches[Model.Matches.Length - 1].TeamA.TeamName***</text>
+                }
+                else
+                {
+
+                    <text>***@Model.Matches[Model.Matches.Length - 1].TeamB.TeamName***</text>
+                }
+            }
         }
         else
         {
@@ -73,7 +88,8 @@
                 if (Model.Matches.Length == 0)
                 {
                     var dropdown = tournamentController.DropDownListMaker().ToArray();
-                    @Html.DropDownListFor(model => model.Teams[counter], new SelectList(dropdown, dropdown[i]))
+                    @Html.DropDownListFor(model => model.Teams[counter], new SelectList(dropdown,
+                            (dropdown.Length == 0) ? "" : dropdown[i % dropdown.Length]))
                 }
                 else
                 {

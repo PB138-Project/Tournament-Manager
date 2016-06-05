@@ -5,10 +5,12 @@
 }
 
 <h2>Tournaments</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+}
 <table class="table">
     <tr>
         <th>
@@ -37,7 +39,9 @@
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id })
                 <text> | </text>
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-            }
+                <text> | </text>
+                @Html.ActionLink("Export", "../Export/Index", new { id = item.Id })
+}
         </td>
     </tr>
 }

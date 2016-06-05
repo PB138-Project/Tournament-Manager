@@ -47,6 +47,14 @@ namespace BL.Facades
                 return matches.Select(e => Mapping.Mapper.Map<MatchDTO>(e)).ToList();
             }
         }
+        public List<MatchDTO> GetAllTournamentMatches(int id)
+        {
+            using (var context = new AppDbContext())
+            {
+                var matches = context.Matches.Where(m => m.TournamentId == id).ToList();
+                return matches.Select(e => Mapping.Mapper.Map<MatchDTO>(e)).ToList();
+            }
+        }
 
         public MatchDTO GetSpecificMatch(int id)
         {

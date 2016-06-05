@@ -103,7 +103,7 @@ namespace Web.Controllers
 
             if (tournamentModel.Teams.Length == 1)
             {
-                return RedirectToAction("Winner");
+                return RedirectToAction("Details");
             }
 
             for (int i = 0; i < tournamentModel.Teams.Length; i+=2)

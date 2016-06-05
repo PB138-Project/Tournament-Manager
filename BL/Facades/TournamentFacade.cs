@@ -26,6 +26,26 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
+                if (newTournament.TournamentSize <= 2)
+                {
+                    newTournament.TournamentSize = 2;
+                }
+
+                if (newTournament.TournamentSize <= 4)
+                {
+                    newTournament.TournamentSize = 4;
+                }
+
+                if (newTournament.TournamentSize <= 8)
+                {
+                    newTournament.TournamentSize = 8;
+                }
+
+                if (newTournament.TournamentSize > 8)
+                {
+                    newTournament.TournamentSize = 16;
+                }
+
                 context.Tournaments.Add(newTournament);
                 context.SaveChanges();
             }
@@ -58,6 +78,25 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
+                if (newTournament.TournamentSize <= 2)
+                {
+                    newTournament.TournamentSize = 2;
+                }
+
+                if (newTournament.TournamentSize <= 4)
+                {
+                    newTournament.TournamentSize = 4;
+                }
+
+                if (newTournament.TournamentSize <= 8)
+                {
+                    newTournament.TournamentSize = 8;
+                }
+
+                if (newTournament.TournamentSize > 8)
+                {
+                    newTournament.TournamentSize = 16;
+                }
                 context.Entry(newTournament).State = EntityState.Modified;
                 context.SaveChanges();
             }
