@@ -1409,13 +1409,20 @@ table {
   background-color: transparent;
 }
 
+.Flex {
+    dipslay: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
 th {
   text-align: left;
 }
 
 .table {
-  width: 100%;
+    width: 50%;
   margin-bottom: 20px;
+  
 }
 
 .table thead > tr > th,
