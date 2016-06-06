@@ -4,12 +4,12 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using BL.DTO;
 using BL.Facades;
 using Web.Models;
-using System.Text;
 
 namespace Web.Controllers
 {
@@ -200,11 +200,9 @@ namespace Web.Controllers
             List<string> dropDownList = list.Select(item => item.TeamName).ToList();
             return dropDownList;
         }
-
         public Tuple<string, string>[] GetTeamNames(TournamentModel model)
         {
-            List<Tuple<string, string>> result = new List<Tuple<string, string>>();
-               int maxSize = 0;
+            int maxSize = 0;
             foreach (var match in model.Matches)
             {
                 if (maxSize < match.TeamA.TeamName.Length)
@@ -217,12 +215,7 @@ namespace Web.Controllers
                     maxSize = match.TeamB.TeamName.Length;
                 }
             }
-            foreach (var match in model.Matches)
-            {
-                result.Add(new Tuple<string, string>
-                    (GetName(match.TeamA.TeamName, maxSize), GetName(match.TeamA.TeamName, maxSize)));
-            }
-            return result.ToArray();
+            return model.Matches.Select(match => new Tuple<string, string>(GetName(match.TeamA.TeamName, maxSize), GetName(match.TeamA.TeamName, maxSize))).ToArray();
         }
 
         public string GetName(string name, int size)

@@ -1,14 +1,25 @@
 ﻿@using BL.Facades
 @using Web.Controllers
 @model Web.Models.TournamentModel
-
 @{
     ViewBag.Title = "Tournament Management";
     var tournamentController = new TournamentController();
     var dropDownHelper = 0;
     var offsetHelper = 0;
-    var teamNames = tournamentController.GetTeamNames(Model);
     var teamFacade = new TeamFacade();
+    int maxSize = 0;
+    foreach (var match in Model.Matches)
+    {
+        if (maxSize < match.TeamA.TeamName.Length)
+        {
+            maxSize = match.TeamA.TeamName.Length;
+        }
+
+        if (maxSize < match.TeamB.TeamName.Length)
+        {
+            maxSize = match.TeamB.TeamName.Length;
+        }
+    }
 }
 <div align="center">
     <h4><b>@Html.DisplayFor(model => model.Name)</b></h4>
@@ -18,11 +29,11 @@
     @if (!(Model.Size != Model.Matches.Length + 1 || Model.Matches[Model.Matches.Length - 1].WinnerId == null)) {
     <h2>Winner is Team <b>@if (Model.Matches[Model.Matches.Length - 1].WinnerId == Model.Matches[Model.Matches.Length - 1].TeamAId)
                     {
-                        <text>***@teamNames[Model.Matches.Length - 1].Item1***</text>
+                        <text>***@Model.Matches[Model.Matches.Length - 1].TeamA.TeamName***</text>
                     }
                     else
                     {
-                        <text>***@teamNames[Model.Matches.Length - 1].Item2***</text>
+                        <text>***@Model.Matches[Model.Matches.Length - 1].TeamB.TeamName***</text>
                     }</b></h2>
     }
     <br>
@@ -33,12 +44,12 @@
 @using (Html.BeginForm())
 {
     <div class="Flex">
-        <div style="width: 50%; margin-right: 10%;" align="center">
+        <div style="width: 60%; margin-right: 10%;" align="center">
             @if (Model.Matches.Length >= Model.Size / 2)
             {
                 for (int i = 0; i < Model.Size / 4; i++)
                 {
-                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@teamNames[i].Item1 <sub>vs</sub> @teamNames[i].Item2</i>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
                 <br/>
                 <br/>
@@ -48,7 +59,7 @@
                 dropDownHelper = Model.Size / 2;
                 for (int i = Model.Size / 2; i < Model.Size / 2 + Model.Size / 8; i++)
                 {
-                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@teamNames[i].Item1 <sub>vs</sub> @teamNames[i].Item2</i>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
                 <br/>
                 <br/>
@@ -58,7 +69,7 @@
                 dropDownHelper = Model.Size * 3 / 4;
                 for (int i = Model.Size * 3 / 4; i < Model.Size * 3 / 4 + Model.Size / 16; i++)
                 {
-                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@teamNames[i].Item1 <sub>vs</sub> @teamNames[i].Item1</i>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
                 <br/>
                 <br/>
@@ -67,7 +78,7 @@
             {
                 if (Model.Matches[Model.Matches.Length - 1].WinnerId == null)
                 {
-                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @teamNames[Model.Matches.Length - 1].Item1</i>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</i>
                     <br/>
                     <br/>
                     @Html.DropDownListFor(model => model.Teams[counter], new SelectList(
@@ -75,34 +86,33 @@
                     {
                         Model.Matches[Model.Matches.Length - 1].TeamA.TeamName,
                         Model.Matches[Model.Matches.Length - 1].TeamB.TeamName
-                    }.ToArray()))
+                    }.ToArray()),new {@style = "margin-left: 3px;"})
                     <br/>
                     <br/>
-                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @teamNames[Model.Matches.Length - 1].Item2</i>
-                    <br/>
-                    <br/>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
+
                 }
                 else
                 {
                     if (Model.Matches[Model.Matches.Length - 1].WinnerId == Model.Matches[Model.Matches.Length - 1].TeamAId)
                     {
-                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @teamNames[Model.Matches.Length - 1].Item1</i>
+                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</i>
                         <br/>
                         <br/>
-                        <i style="border: solid red; margin-right: 1%; margin-top: 2%; font-size: 200%;">@teamNames[Model.Matches.Length - 1].Item1</i>
+                        <i style="border: solid red; margin-right: 1%; margin-top: 2%; font-size: 200%;">@Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</i>
                         <br/>
                         <br/>
-                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @teamNames[Model.Matches.Length - 1].Item2</i>
+                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
                     }
                     else
                     {
-                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @teamNames[Model.Matches.Length - 1].Item1</i>
+                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamA.TeamName</i>
                         <br/>
                         <br/>
-                        <i style="border: solid red; margin-right: 1%; margin-top: 2%; font-size: 200%;">@teamNames[Model.Matches.Length - 1].Item2</i>
+                        <i style="border: solid red; margin-right: 1%; margin-top: 2%; font-size: 200%;">@Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
                         <br/>
                         <br/>
-                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @teamNames[Model.Matches.Length - 1].Item2</i>
+                        <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
                     }
                 }
             }
@@ -110,11 +120,12 @@
             {
                 for (int i = 0; i < Model.Size - Model.Matches.Length; ++i)
                 {
+                    var marginHelper = i % 2 == 0 ? "margin-left: 15px;" : "margin-left: 3px;";
                     if (Model.Matches.Length == 0)
                     {
                         var dropdown = tournamentController.DropDownListMaker().ToArray();
                         @Html.DropDownListFor(model => model.Teams[counter], new SelectList(dropdown,
-                        (dropdown.Length == 0) ? "" : dropdown[i % dropdown.Length]))
+                        (dropdown.Length == 0) ? "" : dropdown[i % dropdown.Length]), new { @style = marginHelper })
                     }
                     else
                     {
@@ -123,7 +134,7 @@
                         {
                             Model.Matches[i + dropDownHelper].TeamA.TeamName,
                             Model.Matches[i + dropDownHelper].TeamB.TeamName
-                        }.ToArray()))
+                        }.ToArray()), new { @style = marginHelper })
                     }
                     counter++;
                     if (counter == (Model.Size - Model.Matches.Length) / 2)
@@ -140,7 +151,7 @@
                 offsetHelper = Model.Size * 13 / 16;
                 for (int i = offsetHelper; i < offsetHelper + Model.Size / 16; i++)
                 {
-                    <i style="border: solid green; margin-right: 1%; margin-top: 10%;margin-bottom: 10%;">@@teamNames[i].Item1 <sub>vs</sub> @teamNames[i].Item2</i>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 10%;margin-bottom: 10%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
                 <br/>
                 <br/>
@@ -150,7 +161,7 @@
                 offsetHelper = Model.Size * 5 / 8;
                 for (int i = offsetHelper; i < offsetHelper + Model.Size / 8; i++)
                 {
-                    <i style="border: solid green; margin-right: 1%; margin-top: 10%;margin-bottom: 10%;">@teamNames[i].Item1 <sub>vs</sub> @teamNames[i].Item2</i>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 10%;margin-bottom: 10%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
                 <br />
                 <br />
@@ -160,7 +171,7 @@
                 offsetHelper = Model.Size / 4;
                 for (int i = offsetHelper; i < offsetHelper + Model.Size / 4; i++)
                 {
-                    <i style="border: solid green; margin-right: 1%; margin-top: 10%; margin-bottom: 10%;">@teamNames[i].Item1 <sub>vs</sub> @teamNames[i].Item2</i>
+                    <i style="border: solid green; margin-right: 1%; margin-top: 10%; margin-bottom: 10%;">@Model.Matches[i].TeamA.TeamName <sub>vs</sub> @Model.Matches[i].TeamB.TeamName</i>
                 }
                 <br />
                 <br />
