@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using BL.DTO;
@@ -198,6 +199,39 @@ namespace Web.Controllers
             var list = teamFacade.GetAllUnusedTeams();
             List<string> dropDownList = list.Select(item => item.TeamName).ToList();
             return dropDownList;
+        }
+        public Tuple<string, string>[] GetTeamNames(TournamentModel model)
+        {
+            int maxSize = 0;
+            foreach (var match in model.Matches)
+            {
+                if (maxSize < match.TeamA.TeamName.Length)
+                {
+                    maxSize = match.TeamA.TeamName.Length;
+                }
+
+                if (maxSize < match.TeamB.TeamName.Length)
+                {
+                    maxSize = match.TeamB.TeamName.Length;
+                }
+            }
+            return model.Matches.Select(match => new Tuple<string, string>(GetName(match.TeamA.TeamName, maxSize), GetName(match.TeamA.TeamName, maxSize))).ToArray();
+        }
+
+        public string GetName(string name, int size)
+        {
+            StringBuilder result = new StringBuilder();
+            int gap = size - name.Length;
+            for (int i = 0; i < gap / 2 + gap % 2; ++i)
+            {
+                result.Append(" ");
+            }
+            result.Append(name);
+            for (int i = 0; i < gap / 2; ++i)
+            {
+                result.Append(" ");
+            }
+            return result.ToString();
         }
     }
 }

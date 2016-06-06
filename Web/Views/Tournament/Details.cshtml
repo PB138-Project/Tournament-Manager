@@ -7,6 +7,19 @@
     var dropDownHelper = 0;
     var offsetHelper = 0;
     var teamFacade = new TeamFacade();
+    int maxSize = 0;
+    foreach (var match in Model.Matches)
+    {
+        if (maxSize < match.TeamA.TeamName.Length)
+        {
+            maxSize = match.TeamA.TeamName.Length;
+        }
+
+        if (maxSize < match.TeamB.TeamName.Length)
+        {
+            maxSize = match.TeamB.TeamName.Length;
+        }
+    }
 }
 <div align="center">
     <h4><b>@Html.DisplayFor(model => model.Name)</b></h4>
@@ -31,7 +44,7 @@
 @using (Html.BeginForm())
 {
     <div class="Flex">
-        <div style="width: 50%; margin-right: 10%;" align="center">
+        <div style="width: 60%; margin-right: 10%;" align="center">
             @if (Model.Matches.Length >= Model.Size / 2)
             {
                 for (int i = 0; i < Model.Size / 4; i++)
@@ -73,12 +86,11 @@
                     {
                         Model.Matches[Model.Matches.Length - 1].TeamA.TeamName,
                         Model.Matches[Model.Matches.Length - 1].TeamB.TeamName
-                    }.ToArray()))
+                    }.ToArray()),new {@style = "margin-left: 3px;"})
                     <br/>
                     <br/>
                     <i style="border: solid green; margin-right: 1%; margin-top: 2%;"> @Model.Matches[Model.Matches.Length - 1].TeamB.TeamName</i>
-                    <br/>
-                    <br/>
+
                 }
                 else
                 {
@@ -108,11 +120,12 @@
             {
                 for (int i = 0; i < Model.Size - Model.Matches.Length; ++i)
                 {
+                    var marginHelper = i % 2 == 0 ? "margin-left: 15px;" : "margin-left: 3px;";
                     if (Model.Matches.Length == 0)
                     {
                         var dropdown = tournamentController.DropDownListMaker().ToArray();
                         @Html.DropDownListFor(model => model.Teams[counter], new SelectList(dropdown,
-                        (dropdown.Length == 0) ? "" : dropdown[i % dropdown.Length]))
+                        (dropdown.Length == 0) ? "" : dropdown[i % dropdown.Length]), new { @style = marginHelper })
                     }
                     else
                     {
@@ -121,7 +134,7 @@
                         {
                             Model.Matches[i + dropDownHelper].TeamA.TeamName,
                             Model.Matches[i + dropDownHelper].TeamB.TeamName
-                        }.ToArray()))
+                        }.ToArray()), new { @style = marginHelper })
                     }
                     counter++;
                     if (counter == (Model.Size - Model.Matches.Length) / 2)
