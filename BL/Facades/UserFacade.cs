@@ -28,7 +28,7 @@ namespace BL.Facades
 
             if (user.SecretCode != null)
             {
-                if (user.SecretCode.Equals("CubaLibre"))
+                if (user.SecretCode.Equals("9"))
                 {
                     var roleManager = new AppRoleManager(new AppRoleStore(new AppDbContext()));
 

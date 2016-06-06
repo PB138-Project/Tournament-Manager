@@ -159,13 +159,14 @@ namespace Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, [Bind(Include = "Id")] TournamentDTO tournamentDTO)
+        public ActionResult Edit(int id, TournamentDTO tournamentDTO)
         {
             var tournamentFacade = new TournamentFacade();
             if (ModelState.IsValid)
             {
                 var originalTournament = tournamentFacade.GetSpecificTournament(id);
                 originalTournament.TournamentName = tournamentDTO.TournamentName;
+                originalTournament.TournamentSize = tournamentDTO.TournamentSize;
                 tournamentFacade.UpdateTournament(originalTournament);
                 return RedirectToAction("Tournaments");
             }
