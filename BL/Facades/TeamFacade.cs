@@ -83,7 +83,7 @@ namespace BL.Facades
         {
             var newTeam = Mapping.Mapper.Map<Team>(team);
 
-            if (GetId(newTeam.TeamName) != newTeam.Id)
+            if (GetId(newTeam.TeamName) != newTeam.Id && GetId(newTeam.TeamName) != 0)
             {
                 return;
             }

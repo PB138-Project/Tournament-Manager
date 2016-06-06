@@ -30,26 +30,7 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
-                if (newTournament.TournamentSize <= 2)
-                {
-                    newTournament.TournamentSize = 2;
-                }
-
-                if (newTournament.TournamentSize <= 4)
-                {
-                    newTournament.TournamentSize = 4;
-                }
-
-                if (newTournament.TournamentSize <= 8)
-                {
-                    newTournament.TournamentSize = 8;
-                }
-
-                if (newTournament.TournamentSize > 8)
-                {
-                    newTournament.TournamentSize = 16;
-                }
-
+                newTournament.TournamentSize = FixSize(newTournament.TournamentSize);
                 context.Tournaments.Add(newTournament);
                 context.SaveChanges();
             }
@@ -79,7 +60,7 @@ namespace BL.Facades
         {
             var newTournament = Mapping.Mapper.Map<Tournament>(tournament);
 
-            if (GetId(newTournament.TournamentName) != newTournament.Id)
+            if (GetId(newTournament.TournamentName) != newTournament.Id && GetId(newTournament.TournamentName) != 0)
             {
                 return;
             }
@@ -87,25 +68,7 @@ namespace BL.Facades
             using (var context = new AppDbContext())
             {
                 context.Database.Log = Logger;
-                if (newTournament.TournamentSize <= 2)
-                {
-                    newTournament.TournamentSize = 2;
-                }
-
-                if (newTournament.TournamentSize <= 4)
-                {
-                    newTournament.TournamentSize = 4;
-                }
-
-                if (newTournament.TournamentSize <= 8)
-                {
-                    newTournament.TournamentSize = 8;
-                }
-
-                if (newTournament.TournamentSize > 8)
-                {
-                    newTournament.TournamentSize = 16;
-                }
+                newTournament.TournamentSize = FixSize(newTournament.TournamentSize);
                 context.Entry(newTournament).State = EntityState.Modified;
                 context.SaveChanges();
             }
@@ -137,6 +100,23 @@ namespace BL.Facades
                 context.SaveChanges();
                 return (tournament == null) ? 0 : tournament.Id;
             }
+        }
+
+        private int FixSize(int size)
+        {
+            if (size <= 2)
+            {
+                return 2;
+            }
+            if (size <= 4)
+            {
+                return 4;
+            }
+            if (size <= 8)
+            {
+                return 8;
+            }
+            return 16;
         }
     }
 }

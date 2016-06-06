@@ -63,7 +63,7 @@ namespace BL.Facades
         {
             var newPlayer = Mapping.Mapper.Map<Player>(player);
 
-            if (GetId(newPlayer.Name) != newPlayer.Id)
+            if (GetId(newPlayer.Name) != newPlayer.Id && GetId(newPlayer.Name) != 0)
             {
                 return;
             }

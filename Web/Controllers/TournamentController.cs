@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using BL.DTO;
 using BL.Facades;
 using Web.Models;
+using System.Text;
 
 namespace Web.Controllers
 {
@@ -198,6 +199,46 @@ namespace Web.Controllers
             var list = teamFacade.GetAllUnusedTeams();
             List<string> dropDownList = list.Select(item => item.TeamName).ToList();
             return dropDownList;
+        }
+
+        public Tuple<string, string>[] GetTeamNames(TournamentModel model)
+        {
+            List<Tuple<string, string>> result = new List<Tuple<string, string>>();
+               int maxSize = 0;
+            foreach (var match in model.Matches)
+            {
+                if (maxSize < match.TeamA.TeamName.Length)
+                {
+                    maxSize = match.TeamA.TeamName.Length;
+                }
+
+                if (maxSize < match.TeamB.TeamName.Length)
+                {
+                    maxSize = match.TeamB.TeamName.Length;
+                }
+            }
+            foreach (var match in model.Matches)
+            {
+                result.Add(new Tuple<string, string>
+                    (GetName(match.TeamA.TeamName, maxSize), GetName(match.TeamA.TeamName, maxSize)));
+            }
+            return result.ToArray();
+        }
+
+        public string GetName(string name, int size)
+        {
+            StringBuilder result = new StringBuilder();
+            int gap = size - name.Length;
+            for (int i = 0; i < gap / 2 + gap % 2; ++i)
+            {
+                result.Append(" ");
+            }
+            result.Append(name);
+            for (int i = 0; i < gap / 2; ++i)
+            {
+                result.Append(" ");
+            }
+            return result.ToString();
         }
     }
 }
