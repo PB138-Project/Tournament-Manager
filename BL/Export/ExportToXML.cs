@@ -22,31 +22,49 @@ namespace BL.Export
 
                 var matches = matchFacade.GetAllTournamentMatches(tournament.Id);
 
-                TournamentXML tournamentXML = new TournamentXML
+                Tournament tournamentXML = new Tournament
                 {
                     Id = tournament.Id,
                     TournamentName = tournament.TournamentName,
                     TournamentSize = tournament.TournamentSize,
-                    Matches = new List<string>()
+                    Matches = new List<Match>(),
+                    Teams = new List<Team>()
                 };
-
+                int count = 0;
                 foreach (var match in matches)
                 {
-                    var MatchXML = new MatchXML
+                    var teamA = teamFacade.GetSpecificTeam(match.TeamAId).TeamName;
+                    var teamB = teamFacade.GetSpecificTeam(match.TeamBId).TeamName;
+                    var matchXML = new Match
                     {
                         Id = match.Id,
-                        TeamAId = match.TeamAId,
-                        TeamBId = match.TeamBId,
-                        TeamA = teamFacade.GetSpecificTeam(match.TeamAId).TeamName,
-                        TeamB = teamFacade.GetSpecificTeam(match.TeamBId).TeamName,
-                        WinnerId = match.WinnerId
+                        TeamA = teamA,
+                        TeamB = teamB,
+                        Winner = (match.WinnerId == null) ? "Unfinished Match" :
+                        (match.WinnerId == match.TeamAId) ? teamA : teamB
                     };
-                    tournamentXML.Matches.Add(MatchXML.ToString());
+                    if (count < tournament.TournamentSize / 2)
+                    {
+                        var team1 = new Team
+                        {
+                            Id = match.TeamAId,
+                            Name = teamA
+                        };
+                        var team2 = new Team
+                        {
+                            Id = match.TeamBId,
+                            Name = teamB
+                        };
+                        tournamentXML.Teams.Add(team1);
+                        tournamentXML.Teams.Add(team2);
+                        ++count;
+                    }
+                    tournamentXML.Matches.Add(matchXML);
                 }
 
 
                 System.Xml.Serialization.XmlSerializer writer =
-                    new System.Xml.Serialization.XmlSerializer(typeof(TournamentXML));
+                    new System.Xml.Serialization.XmlSerializer(typeof(Tournament));
 
                 var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"//{tournament.TournamentName}.xml";
                 System.IO.FileStream file = System.IO.File.Create(path);

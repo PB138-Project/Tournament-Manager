@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace BL.Export
 {
-    public class TournamentXML
+    public class Tournament
     {
         public int Id { get; set; }
         public string TournamentName { get; set; }
         public int TournamentSize { get; set; }
-        public List<string> Matches { get; set; }
+        public List<Team> Teams { get; set; }
+        public List<Match> Matches { get; set; }
     }
 }
