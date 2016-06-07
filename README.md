@@ -9,7 +9,7 @@ Tournament Manager
 The assignment was to create a web application for managing sport tournaments, generating a tournament roster and exporting statistics.
 
 ## Project Structure
-The project is structured using the MVC.NET framework, with a Data Access Layer, Business Layer and a Presentation Layer.
+The project is structured using the ASP.NET MVC framework, with a Data Access Layer, Business Layer and a Presentation Layer.
 The project also utilizes responsive web design (the bootstrap framework) and will contain a login interface.
 
 ## Authors
