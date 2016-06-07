@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "docbook-xml-4.5/docbookx.dtd">
+
+<book lang="cs">
+	<title>Záverečná správa projektu</title>
+	<subtitle>Projekt: Manažér turnajov</subtitle>
+	  <bookinfo>
+      <authorgroup>
+          <author>
+              <firstname>
+                  Filip
+              </firstname>
+              <surname>
+                  Drgoň
+              </surname>
+              <email>
+                  433309
+              </email>
+          </author>
+          <author>
+              <firstname>
+                  Ľubomír
+              </firstname>
+              <surname>
+                  Gocník
+              </surname>
+              <email>
+                  433737
+              </email>
+          </author>
+      </authorgroup>
+      <pubdate>2016-06-07</pubdate>
+  </bookinfo>
+
+    <chapter>
+	  	<title>Záverečné správy</title>
+	  	<section>
+	  		<author>Filip Drgoň</author>
+	  		<title>Tvorba základnej štruktúry, databázy, vzhľadu stránky a práca na hlavnej logike aplikácie</title>
+	  		<description>
+		  		<para> 
+		  			Môj podiel na tvorbe projektu sa skladal z základného vytvorenia ASP.NET MVC štruktúry, tzn. vytvorenie troch vrstiev (Data Access Layer, Business Layer a Presentation Layer, ďalej DAL, BL a PL). Následne som navrhol a implementoval databázu do DAL, vytvoril pomocné Data Transfer Objects v BL a vytvoril fasády s základnými CRUD operáciami.
+		  		</para>
+		  		<para> 
+		  			Ďalším mojím krokom bolo základné navrhnutie PL, tzn. výzoru stránky. Stránku som implementoval pomocou responzívneho frameworku Twitter Bootstrap a s menšími modifikáciami som používal výhradne jeho možnosti.
+		  		</para>
+		  		<para> 
+		  			Snažil som sa, aby náš cieľový produkt bol jednoducho použiteľný a relatívne prívetivý. Po spustení aplikácie sa uživateľ dostane na prvú stránku, kde mu je zbežne vysvetlené, ako s aplikáciou pracovať, vrátane inštrukcií ako sa prihlásiť a zaregistrovať.
+		  		</para>
+		  		<para> 
+		  			Do hornej časti stránky som implementoval jednoduché menu s možnostami aplikácie, ktorého poloha sa počas celého použivateľovho užívania nemení. Ponúka jednoduché prechody medzi rôznymi komponentami.
+		  		</para>
+		  		<para> 
+		  			S kolegom Gocníkom sme následne spoločne pracovali na hlavnej logike celej našej aplikácie; jej väčšina sa nachádza v Details View v zložke Tournament a v TournamentController-i v zložke Controllers (v PL). Táto práca zahŕňala implementáciu algoritmu na zrozumiteľný a prehľadný výpis zápasov, mien týmov a turnajového pavúka. Naša aplikácia v tejto časti pracovala s jednou stránkou, ktorej obsah sa menil v závislosti od predošlých krokov používateľa. Táto zmena obsahu bola vždy robená na strane serveru (v jazyku C#).
+		  		</para>
+	  		</description>
+	  	</section>
+	  	<section>
+	        <author>Ľubo Gocník</author>       
+	        <title>Autentizácia, Modifikácia fasád, Štruktúra hlavnej časti stránky</title>
+	        <description>
+	            <para>
+	                Vrámci mojej časti podielu som do predom vytvoreného projektu Doplnil autentizáciu (registrovanie / prihlasovanie) užívateľov,
+					ochranu pred neautorizovaným prístupom k funkciám meniacim dáta v databáze, ďalej som aplikáciu zabezpečil pred injektovaním 
+					dát v url. V prípade pokusu o manuálny prepis údajov bude uživateľ odoslaný do else vetvy kde sa mu vypíše správa,
+					že k danej stránke nemá oprávnenie.
+	            </para>
+	            <para>
+	                V ďalšej časti som sa sústredil na debugovanie Business Vrstvy, kde som napríklad zabezpečil veľkosť turnaja na mocniny 2-ky po 16-ku. V prípade iného počtu týmov si napríklad môžu doplniť neexistujúce týmy nad ktorými automaticky vyhrajú. V prípade väčšieho počtu týmov sa jednoducho vytvorí viacero turnajov. ďalej som zabezpečil, aby nebolo možné prihlásiť 2 entity (turnaj, team, player) s rovnakým menom nakoľko to v našej databáze nemôžeme podporovať. 
+	            </para>
+	            <para>
+	                Ďalej som vytvoril funkcie na export dát Turnaja vrátene zápasov a týmov kde sa pri týme zobrazilo počet odohraných zápasov,
+					počet vyhraných zápasov a percentuálna úspešnosť tohto týmu. Export sa zavolá na jednotlivý turnaj, pričom xml súbor sa uloží do
+					Dokmunetov v tvare: *názov_turnaja*.xml. Túto funkciu, nakoľko neovplyvňuje dáta v databáze, môže vykonať aj neautorizovaný užívatel.
+				</para>
+				<para>
+	                Dalšia časť, ktorú som spravil, bola štruktúra stránky, ktorá zobrazuje detaily turnaja. Po zobrazení sa vám zobrazí (ako adminovi) pavúk týmov v aktuálnej podobe, nazačiatku sa prvých n týmov zobrazí v dropdown paneloch. V ďalšom kroku sa tieto panely "zamknú" a objavia sa nové panely v ktorých už je iba dvojica mien týmov, ktoré hrajú v danom zápase. Všekto sa odohráva na jednej stránke, kt. sa priebežne modifikuje. Táto časť prebieha na strane serveru. Funguje to tak, že v prvom kroku pri načítavaní stránky si WebModel, kt. má prístup do Business Vrstvy, zavolá fasádu, ktorá vyberie dáta z Data Access Vrstvy. Pomocou tohto modelu sa všetky potrebné dáta dostanú na stránku, kde sa zobrazia. Po nastaveniach premenných klienta a potvrdení sa tento model, s už novými údajmi, vráti do Controllera, kde sa zase pomocou fasády z Business Vrstvy údaje uložia do databázy a zavolá sa krok jedna. Takto sa to cyklí bez potreby ďalšej stránky.
+				</para>
+			</description>
+	    </section>
+	</chapter>
+</book>
