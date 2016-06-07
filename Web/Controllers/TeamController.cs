@@ -14,8 +14,9 @@ namespace Web.Controllers
 {
     public class TeamController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
+        /*
+         * Method returns a list view of Teams.
+         */
         // GET: Team
         public ActionResult Teams()
         {
@@ -32,8 +33,6 @@ namespace Web.Controllers
         }
 
         // POST: Team/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(TeamDTO teamDTO)
@@ -57,8 +56,6 @@ namespace Web.Controllers
         }
 
         // POST: Team/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, [Bind(Include = "Id,TeamName")] TeamDTO teamDTO)

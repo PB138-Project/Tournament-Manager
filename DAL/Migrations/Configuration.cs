@@ -32,27 +32,27 @@ namespace DAL.Migrations
                 p => p.Id,
                 new Team { TeamName = "Korec" },
                 new Team { TeamName = "Gonda" },
-                new Team { TeamName = "Rydzi" },
+                new Team { TeamName = "Rýdzi" },
                 new Team { TeamName = "Repa" },
-                new Team { TeamName = "Lampa" },
-                new Team { TeamName = "Strom" },
-                new Team { TeamName = "Ryza" },
-                new Team { TeamName = "Tycinka" },
-                new Team { TeamName = "Kebab" },
-                new Team { TeamName = "Jablko" },
-                new Team { TeamName = "Holub" },
-                new Team { TeamName = "Kelimok" },
-                new Team { TeamName = "Trnava" },
-                new Team { TeamName = "Piatok" },
-                new Team { TeamName = "Hlboko" },
-                new Team { TeamName = "Janko" }
+                new Team { TeamName = "Gocník" },
+                new Team { TeamName = "Drgoò" },
+                new Team { TeamName = "Èekovský" },
+                new Team { TeamName = "Polanský" },
+                new Team { TeamName = "Obšivaè" },
+                new Team { TeamName = "Pan Manh Tran" },
+                new Team { TeamName = "Poliver" },
+                new Team { TeamName = "Kika" },
+                new Team { TeamName = "Jano" },
+                new Team { TeamName = "Druhá Kika" },
+                new Team { TeamName = "Športovka" },
+                new Team { TeamName = "Pablo Escobar" }
                 );
             context.Tournaments.AddOrUpdate(
                 p => p.Id,
-                new Tournament { TournamentName = "Gocnik Cup 2k16", TournamentSize = 16 },
-                new Tournament { TournamentName = "Korec Cup 2k16", TournamentSize = 8 },
-                new Tournament { TournamentName = "Gonda Cup 2k16", TournamentSize = 4 },
-                new Tournament { TournamentName = "Obsivac Cup 2k16", TournamentSize = 2 }
+                new Tournament { TournamentName = "Gocnik Cup 2016", TournamentSize = 16 },
+                new Tournament { TournamentName = "Bratiska Cup 2016", TournamentSize = 8 },
+                new Tournament { TournamentName = "VUT Cup 2016", TournamentSize = 4 },
+                new Tournament { TournamentName = "Colombia Invitational 2016", TournamentSize = 2 }
                 );
         }
     }

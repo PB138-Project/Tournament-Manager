@@ -98,10 +98,12 @@ namespace BL.Facades
                 context.Database.Log = Logger;
                 var tournament = context.Tournaments.FirstOrDefault(t => t.TournamentName.Equals(name));
                 context.SaveChanges();
-                return (tournament == null) ? 0 : tournament.Id;
+                return tournament?.Id ?? 0;
             }
         }
-
+        /*
+         * Method fixes the size of tournament to be in powers of two (e.g. 2,4,8,16)
+         */
         private int FixSize(int size)
         {
             if (size <= 2)

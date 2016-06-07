@@ -11,7 +11,9 @@ namespace Web.Controllers
 {
     public class PlayerController : Controller
     {
-     
+     /*
+      * Method returns a list view of players.
+      */
             public ActionResult Players()
             {
             PlayerFacade playerFacade = new PlayerFacade();
@@ -62,7 +64,9 @@ namespace Web.Controllers
                 }
                 return View(player);
             }
-
+        /*
+         * Method returns a list of names of teams for DropDownList in Create Player view.
+         */
         public List<string> DropDownListMaker()
         {
             var teamFacade = new TeamFacade();

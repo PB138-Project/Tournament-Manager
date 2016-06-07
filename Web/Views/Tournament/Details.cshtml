@@ -26,15 +26,15 @@
     <h4><b>@Html.DisplayFor(model => model.Size)-team</b> tournament</h4>
 
 
-    @if (!(Model.Size != Model.Matches.Length + 1 || Model.Matches[Model.Matches.Length - 1].WinnerId == null)) {
-    <h2>Winner is Team <b>@if (Model.Matches[Model.Matches.Length - 1].WinnerId == Model.Matches[Model.Matches.Length - 1].TeamAId)
-                    {
-                        <text>***@Model.Matches[Model.Matches.Length - 1].TeamA.TeamName***</text>
-                    }
-                    else
-                    {
-                        <text>***@Model.Matches[Model.Matches.Length - 1].TeamB.TeamName***</text>
-                    }</b></h2>
+    @if (!(Model.Size != Model.Matches.Length + 1 || Model.Matches[Model.Matches.Length - 1].WinnerId == null))
+    {
+        <h2>
+            Winner is Team <b class="text-danger">
+                @(Model.Matches[Model.Matches.Length - 1].WinnerId == Model.Matches[Model.Matches.Length - 1].TeamAId
+            ? Model.Matches[Model.Matches.Length - 1].TeamA.TeamName
+            : Model.Matches[Model.Matches.Length - 1].TeamB.TeamName)
+            </b>
+        </h2>
     }
     <br>
 </div>
@@ -43,8 +43,8 @@
 }
 @using (Html.BeginForm())
 {
-    <div class="Flex">
-        <div style="width: 60%; margin-right: 10%;" align="center">
+
+        <div style="width: 100%;" align="center">
             @if (Model.Matches.Length >= Model.Size / 2)
             {
                 for (int i = 0; i < Model.Size / 4; i++)
@@ -193,7 +193,7 @@
                 </p>
             }
         </div>
-        <table class="table">
+        <table class="table" align="center">
             <tr>
                 <th>
                     <p>First Team</p>
@@ -225,6 +225,5 @@
                 </tr>
             }
         </table>
-    </div>
 }
 

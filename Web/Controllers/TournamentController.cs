@@ -15,8 +15,9 @@ namespace Web.Controllers
 {
     public class TournamentController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-
+        /*
+         * Method returns a list view of Tournaments.
+         */
         // GET: Tournament
         public ActionResult Tournaments()
         {
@@ -78,9 +79,8 @@ namespace Web.Controllers
             //Set Tournament Id in first cycle
             if (tournamentModel.Teams.Length == tournamentModel.Size)
             {
-                foreach (var name in tournamentModel.Teams)
+                foreach (var team in tournamentModel.Teams.Select(name => teamFacade.GetSpecificTeam(name)))
                 {
-                    var team = teamFacade.GetSpecificTeam(name);
                     team.TournamentId = tournament.Id;
                     teamFacade.UpdateTeam(team);
                 }
@@ -88,7 +88,7 @@ namespace Web.Controllers
             //Set Winners
             foreach(var match in matchFacade.SetWinners())
             {
-                foreach(string name in tournamentModel.Teams)
+                foreach(var name in tournamentModel.Teams)
                 {
                     if (match.TeamA.TeamName.Equals(name))
                     {
@@ -117,12 +117,6 @@ namespace Web.Controllers
             return RedirectToAction("Details");
         }
 
-
-        // GET: Tournament/Winner -> last round
-        public ActionResult Winner()
-        {
-            return View();
-        }
         // GET: Tournament/Create
         public ActionResult Create()
         {

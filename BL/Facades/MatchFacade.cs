@@ -69,6 +69,9 @@ namespace BL.Facades
             }
         }
 
+        /*
+         * Method returns a list of matches without winners for future setting of winners.
+         */
         public List<MatchDTO> SetWinners()
         {
             using (var context = new AppDbContext())

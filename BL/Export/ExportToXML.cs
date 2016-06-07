@@ -13,6 +13,10 @@ namespace BL.Export
 {
     public class ExportToXML
     {
+        /*
+         * Method exports tournament data to a structured XML file.
+         * Tournament data includes team data with wins, matches played, and win/lose ratio.
+         */
         public static void WriteXML(TournamentDTO tournament)
         {
             MatchFacade matchFacade = new MatchFacade();
@@ -72,7 +76,7 @@ namespace BL.Export
                         if (match.Winner.Equals(team.Name)) {
                             team.Wins++;
                         }
-                        if (match.TeamA.Equals(team.Name) || match.TeamB.Equals(team.Name))
+                        if ((match.TeamA.Equals(team.Name) || match.TeamB.Equals(team.Name)) && !match.Winner.Equals("Unfinished Match"))
                         {
                             team.Matches++;
                         }
@@ -85,7 +89,7 @@ namespace BL.Export
                     new System.Xml.Serialization.XmlSerializer(typeof(Tournament));
 
                 var path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + $"//{tournament.TournamentName}.xml";
-                System.IO.FileStream file = System.IO.File.Create(path);
+                FileStream file = System.IO.File.Create(path);
 
                 writer.Serialize(file, tournamentXML);
 
