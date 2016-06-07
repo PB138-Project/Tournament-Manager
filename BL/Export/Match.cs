@@ -12,6 +12,5 @@ namespace BL.Export
         public string TeamA { get; set; }
         public string TeamB { get; set; }
         public string Winner { get; set; }
-       
     }
 }

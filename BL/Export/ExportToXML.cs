@@ -48,18 +48,36 @@ namespace BL.Export
                         var team1 = new Team
                         {
                             Id = match.TeamAId,
-                            Name = teamA
+                            Name = teamA,
+                            Wins = 0,
+                            Matches = 0,
                         };
                         var team2 = new Team
                         {
                             Id = match.TeamBId,
-                            Name = teamB
+                            Name = teamB,
+                            Wins = 0,
+                            Matches = 0,
                         };
                         tournamentXML.Teams.Add(team1);
                         tournamentXML.Teams.Add(team2);
                         ++count;
                     }
                     tournamentXML.Matches.Add(matchXML);
+                }
+                foreach(var team in tournamentXML.Teams)
+                {
+                    foreach(var match in tournamentXML.Matches)
+                    {
+                        if (match.Winner.Equals(team.Name)) {
+                            team.Wins++;
+                        }
+                        if (match.TeamA.Equals(team.Name) || match.TeamB.Equals(team.Name))
+                        {
+                            team.Matches++;
+                        }
+                    }
+                    team.Ratio = $"{Math.Round(((double) team.Wins / team.Matches),3)*100}%";
                 }
 
 

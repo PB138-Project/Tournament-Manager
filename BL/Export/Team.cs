@@ -10,5 +10,8 @@ namespace BL.Export
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int Matches { get; set; }
+        public int Wins { get; set; }
+        public string Ratio { get; set; }
     }
 }
